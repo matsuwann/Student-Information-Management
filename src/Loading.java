@@ -32,15 +32,15 @@ public class Loading extends JFrame {
         lblPUP.setFont(new Font("Arial", Font.BOLD, 30));
         add(lblPUP);
         
-       //Loading Bar
-        lblLoad = new JLabel("LOADING PLEASE WAIT...");
+        //Loading Bar
+        lblLoad = new JLabel("LOADING PLEASE WAIT");
         lblLoad.setBounds(300,300,500,40);
         lblLoad.setFont((new Font("Arial", Font.BOLD, 30)));
         add(lblLoad);
         
         lbLoad = new JProgressBar();
         lbLoad.setValue(0);
-        lbLoad.setStringPainted(true);
+        lbLoad.setStringPainted(false);
         lbLoad.setBounds(230,350,500,30);
         lbLoad.setBackground(new Color(245,237,207));
         lbLoad.setForeground((Color.WHITE));
@@ -49,13 +49,13 @@ public class Loading extends JFrame {
         
         new SwingWorker<Void, Void>() {
             @Override
-            protected Void doInBackground() throws Exception {
+            public Void doInBackground() throws Exception {
                 fill();
                 return null;
             }
 
             @Override
-            protected void done() {
+            public void done() {
                 dispose();
                 Viewing view = new Viewing();
            
