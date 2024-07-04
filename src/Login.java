@@ -3,17 +3,33 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 import javax.swing.*;
 
 public class Login extends JFrame implements ActionListener{
-    JLabel lblLogin, lblStudentID, lblPassword, lblCreate, logoLabel;
+    
+    
+    
+    JLabel lblLogin, lblAdminID, lblPassword, lblCreate, logoLabel;
 
-    JTextField txtStudentID;
+    JTextField txtAdminID;
     JPasswordField txtPassword;
     JButton btnLogin, btnForgot;
+    Connection conn;
     
-    
-    Login(){
+    Login() {
+        
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/db_cite", "root", "");
+            Statement st = conn.createStatement();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Database connection error", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+  
         setTitle("Polytechnic University of the Philippines - Biñan");
         setSize(1000,800);
         setLayout(null);
@@ -29,14 +45,14 @@ public class Login extends JFrame implements ActionListener{
         lblLogin.setFont(new Font("Arial", Font.BOLD, 50));
         add(lblLogin);
        
-        lblStudentID = new JLabel("Admin ID: ");
-        lblStudentID.setBounds(500, 230, 500, 100);
-        lblStudentID.setFont(new Font("Arial", Font.BOLD, 18));
-        add(lblStudentID);
+        lblAdminID = new JLabel("Admin ID: ");
+        lblAdminID.setBounds(500, 230, 500, 100);
+        lblAdminID.setFont(new Font("Arial", Font.BOLD, 18));
+        add(lblAdminID);
         
-        txtStudentID = new JTextField();
-        txtStudentID.setBounds(500, 300, 250, 30);
-        add(txtStudentID);
+        txtAdminID = new JTextField();
+        txtAdminID.setBounds(500, 300, 250, 30);
+        add(txtAdminID);
        
         lblPassword = new JLabel("Password: ");
         lblPassword.setBounds(500, 310, 500, 100);
@@ -66,21 +82,49 @@ public class Login extends JFrame implements ActionListener{
         add(btnForgot);
         btnForgot.addActionListener(this);
         
-        ImageIcon logoImage = new ImageIcon("pup.png"); // Provide the correct path to your logo image file
-        Image scaledLogoImage = logoImage.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH); // Resize image to 120x90
+        ImageIcon logoImage = new ImageIcon("pup.png"); // palagay path nung logo
+        Image scaledLogoImage = logoImage.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH); // 
         ImageIcon scaledLogoIcon = new ImageIcon(scaledLogoImage);
         logoLabel = new JLabel(scaledLogoIcon);
-        logoLabel.setBounds(60, 210, 400, 400); // Set bounds to match resized image
+        logoLabel.setBounds(60, 210, 400, 400); 
         add(logoLabel);
     
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-         dispose();
-           Loading load = new Loading();
-           load.setVisible(true);
-           load.setResizable(true);
+        if (e.getSource() == btnLogin) {
+            String adminID = txtAdminID.getText().trim();
+            String password = new String(txtPassword.getPassword());
+            
+            String query = "SELECT * FROM tbl_user WHERE adminID = ? AND PASSWORD = ?";
+            
+            try(PreparedStatement pst = conn.prepareStatement(query)) {
+                
+                pst.setString(1, adminID);
+                pst.setString(2, (password));
+                
+                ResultSet rs = pst.executeQuery();
+                
+                if (rs.next()) {
+                    dispose();
+                    Loading load = new Loading();
+                    load.setVisible(true);
+                    load.setResizable(false);
+                }
+                else {
+                            JOptionPane.showMessageDialog(this, "Invalid Admin ID or Password", "Login Error", JOptionPane.ERROR_MESSAGE);
+                            }
+            }
+            catch(SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Database query error", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            
+        }
+        else if (e.getSource() == btnForgot) {
+            
+        }
     }
     
 }
