@@ -12,7 +12,7 @@ public class MainClass {
            Login log = new Login(); 
            log.setVisible(true);
            log.setResizable(false);
-         
+                
          }  
       });
     }
