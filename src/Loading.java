@@ -40,11 +40,11 @@ public class Loading extends JFrame {
         
         lbLoad = new JProgressBar();
         lbLoad.setValue(0);
-        lbLoad.setStringPainted(false);
+        lbLoad.setStringPainted(true);
         lbLoad.setBounds(230,350,500,30);
         lbLoad.setBackground(new Color(245,237,207));
         lbLoad.setForeground((Color.WHITE));
-        lbLoad.setFont(new Font("Arial",Font.PLAIN,0));
+        lbLoad.setFont(new Font("Arial",Font.PLAIN,12));
         add(lbLoad);
         
         new SwingWorker<Void, Void>() {
@@ -57,8 +57,7 @@ public class Loading extends JFrame {
             @Override
             public void done() {
                 dispose();
-                Viewing view = new Viewing();
-           
+                Viewing view = new Viewing();           
                 view.setVisible(true);
             }
         }.execute();
@@ -71,7 +70,7 @@ public class Loading extends JFrame {
             while (i<100)
             {
                 lbLoad.setValue(i + 6);
-                Thread.sleep(50);
+                Thread.sleep(120);
                 i += 10;
             }
         }
