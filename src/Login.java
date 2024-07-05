@@ -75,12 +75,12 @@ public class Login extends JFrame implements ActionListener{
         add(btnLogin);
         btnLogin.addActionListener(this);
         
-        btnForgot = new JButton("FORGOT PASSWORD?");
-        btnForgot.setBounds(500, 510, 250, 50);
-        btnForgot.setFont(new Font ("Arial", Font.BOLD, 18));
-        btnForgot.setBackground(new Color(179, 94, 37));
-        add(btnForgot);
-        btnForgot.addActionListener(this);
+//        btnForgot = new JButton("FORGOT PASSWORD?");
+//        btnForgot.setBounds(500, 510, 250, 50);
+//        btnForgot.setFont(new Font ("Arial", Font.BOLD, 18));
+//        btnForgot.setBackground(new Color(179, 94, 37));
+//        add(btnForgot);
+//        btnForgot.addActionListener(this);
         
         ImageIcon logoImage = new ImageIcon("pup.png"); // palagay path nung logo
         Image scaledLogoImage = logoImage.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH); // 
@@ -122,9 +122,7 @@ public class Login extends JFrame implements ActionListener{
             }
             
         }
-        else if (e.getSource() == btnForgot) {
-            
-        }
+        
     }
     
 }
