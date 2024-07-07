@@ -68,6 +68,13 @@ public class Login extends JFrame implements ActionListener {
         btnLogin.setBackground(new Color(179, 94, 37));
         add(btnLogin);
         btnLogin.addActionListener(this);
+        
+//        btnForgot = new JButton("FORGOT PASSWORD?");
+//        btnForgot.setBounds(500, 510, 250, 50);
+//        btnForgot.setFont(new Font ("Arial", Font.BOLD, 18));
+//        btnForgot.setBackground(new Color(179, 94, 37));
+//        add(btnForgot);
+//        btnForgot.addActionListener(this);
 
         lblCooldown = new JLabel();
         lblCooldown.setBounds(500, 510, 300, 30);
@@ -150,6 +157,9 @@ public class Login extends JFrame implements ActionListener {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Database query error", "Error", JOptionPane.ERROR_MESSAGE);
             }
+        }
+        else if (e.getSource() == btnForgot) {
+            
         }
     }
 }

@@ -157,9 +157,6 @@ public class Viewing extends JFrame implements ActionListener {
                 model.setRowCount(0); 
                 displayData(model);
             } 
-            else {
-                JOptionPane.showMessageDialog(this, "Student not found.", "Delete Error", JOptionPane.WARNING_MESSAGE);
-            }
         }     
         catch (SQLException ex) {
             ex.printStackTrace();
@@ -180,6 +177,11 @@ public class Viewing extends JFrame implements ActionListener {
             }
         } 
         else if (e.getSource() == btnDelete) {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                String studentID = (String)  table.getValueAt(selectedRow, 0);
+                deleteData(studentID);
+            }
 
         } 
         else if (e.getSource() == btnLogout) {

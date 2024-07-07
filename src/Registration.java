@@ -27,7 +27,7 @@ public class Registration extends JFrame implements ActionListener {
     private String[] Day = {"", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18",
         "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31",};
     private String[] Year = {"", "2007", "2006", "2005", "2004", "2003", "2002", "2001", "2000", "1999", "1998", "1997", "1996", "1995",
-        "1994", "1992", "1991", "1990",};
+        "1994", "1993", "1992", "1991", "1990",};
 
     Registration() {
 
@@ -50,11 +50,11 @@ public class Registration extends JFrame implements ActionListener {
         ImageIcon icon = new ImageIcon("pup.png");
         setIconImage(icon.getImage());
 
-        ImageIcon logoImage = new ImageIcon("pup.png"); 
-        Image scaledLogoImage = logoImage.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); 
+        ImageIcon logoImage = new ImageIcon("pup.png");
+        Image scaledLogoImage = logoImage.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         ImageIcon scaledLogoIcon = new ImageIcon(scaledLogoImage);
         logoLabel = new JLabel(scaledLogoIcon);
-        logoLabel.setBounds(25, 15, 100, 100); 
+        logoLabel.setBounds(25, 15, 100, 100);
         add(logoLabel);
 
         lblPUP = new JLabel("Polytechnic University of the Philippines - Biñan");
@@ -207,8 +207,58 @@ public class Registration extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnConfirm) {
 
+        if (e.getSource() == btnConfirm) {
+            String studentID = txtStudentNumber.getText();
+            String lastName = txtLastName.getText();
+            String firstName = txtFirstName.getText();
+            String middleName = txtMiddleName.getText();
+            String month = (String) cbMonth.getSelectedItem();
+            String day = (String) cbDay.getSelectedItem();
+            String year = (String) cbYear.getSelectedItem();
+            String yrLevel = txtYrLvl.getText();
+            String course = txtCourse.getText();
+            String address = txtAddress.getText();
+            String contact = txtContact.getText();
+            String position = txtPosition.getText();
+            String affiliation = txtAffiliation.getText();
+
+            if (month == null || day == null || year == null || month.isEmpty() || day.isEmpty() || year.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please select a valid date of birth.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String dateOfBirth = year + "-" + getMonthNumber(month) + "-" + day;
+
+            String query = "INSERT INTO tbl_cite (Student_ID, LastName, FirstName, Middlename, Course, Year, Address, Contact, Birthday, Position, Affiliation) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            try {
+                PreparedStatement pstmt = conn.prepareStatement(query);
+                pstmt.setString(1, studentID);
+                pstmt.setString(2, lastName);
+                pstmt.setString(3, firstName);
+                pstmt.setString(4, middleName);
+                pstmt.setString(5, course);
+                pstmt.setString(6, yrLevel);
+                pstmt.setString(7, address);
+                pstmt.setString(8, contact);
+                pstmt.setString(9, dateOfBirth);
+                pstmt.setString(10, position);
+                pstmt.setString(11, affiliation);
+
+                pstmt.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Registration successful!");
+
+                dispose();
+                Viewing view = new Viewing();
+                view.setVisible(true);
+                view.setResizable(false);
+            } 
+            catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } 
         else if (e.getSource() == btnCancel) {
             dispose();
@@ -218,4 +268,34 @@ public class Registration extends JFrame implements ActionListener {
         }
     }
 
+    private String getMonthNumber(String monthName) {
+        switch (monthName) {
+            case "January":
+                return "01";
+            case "February":
+                return "02";
+            case "March":
+                return "03";
+            case "April":
+                return "04";
+            case "May":
+                return "05";
+            case "June":
+                return "06";
+            case "July":
+                return "07";
+            case "August":
+                return "08";
+            case "September":
+                return "09";
+            case "October":
+                return "10";
+            case "November":
+                return "11";
+            case "December":
+                return "12";
+            default:
+                return "";
+        }
+    }
 }

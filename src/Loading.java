@@ -45,7 +45,7 @@ public class Loading extends JFrame {
         lbLoad.setStringPainted(true);
         lbLoad.setBounds(230, 350, 500, 30);
         lbLoad.setBackground(new Color(245, 237, 207));
-        lbLoad.setForeground((Color.WHITE));
+        lbLoad.setForeground((Color.BLACK));
         lbLoad.setFont(new Font("Arial", Font.PLAIN, 12));
         add(lbLoad);
 
