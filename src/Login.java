@@ -84,10 +84,10 @@ public class Login extends JFrame implements ActionListener {
         add(lblCooldown);
 
         ImageIcon logoImage = new ImageIcon("pup.png");
-        Image scaledLogoImage = logoImage.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+        Image scaledLogoImage = logoImage.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
         ImageIcon scaledLogoIcon = new ImageIcon(scaledLogoImage);
         logoLabel = new JLabel(scaledLogoIcon);
-        logoLabel.setBounds(60, 210, 400, 400);
+        logoLabel.setBounds(150, 210, 300, 300);
         add(logoLabel);
     }
 
