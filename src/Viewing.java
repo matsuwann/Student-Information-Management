@@ -24,8 +24,7 @@ public class Viewing extends JFrame implements ActionListener {
         try {
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3307/db_cite", "root", "");
             Statement st = conn.createStatement();
-        } 
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Database connection error", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -85,7 +84,13 @@ public class Viewing extends JFrame implements ActionListener {
         btnRegis.addActionListener(this);
         add(btnRegis);
 
-        DefaultTableModel model = new DefaultTableModel(columnHeader, 0);
+        DefaultTableModel model = new DefaultTableModel(columnHeader, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
+
         table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(20, 150, 950, 500);
@@ -135,8 +140,7 @@ public class Viewing extends JFrame implements ActionListener {
             else {
                 JOptionPane.showMessageDialog(this, "Student not found.", "STUDENT NOT FOUND", JOptionPane.WARNING_MESSAGE);
             }
-        } 
-        
+        }
         catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -154,10 +158,10 @@ public class Viewing extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Student record deleted successfully.", "Delete Success", JOptionPane.INFORMATION_MESSAGE);
 
                 DefaultTableModel model = (DefaultTableModel) table.getModel();
-                model.setRowCount(0); 
+                model.setRowCount(0);
                 displayData(model);
-            } 
-        }     
+            }
+        } 
         catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Delete Error", JOptionPane.ERROR_MESSAGE);
@@ -179,7 +183,7 @@ public class Viewing extends JFrame implements ActionListener {
         else if (e.getSource() == btnDelete) {
             int selectedRow = table.getSelectedRow();
             if (selectedRow != -1) {
-                String studentID = (String)  table.getValueAt(selectedRow, 0);
+                String studentID = (String) table.getValueAt(selectedRow, 0);
                 deleteData(studentID);
             }
 
