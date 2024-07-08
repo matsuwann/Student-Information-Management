@@ -117,34 +117,35 @@ public class Viewing extends JFrame implements ActionListener {
             ex.printStackTrace();
         }
     }
+    
 
     public void searchData(String studentNumber) {
-        String query = "SELECT * FROM tbl_cite WHERE Student_ID LIKE '%" + studentNumber + "%'";
-        try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(query)) {
-            if (rs.next()) {
-                StringBuilder sb = new StringBuilder();
-                sb.append("Student ID: ").append(rs.getString(1)).append("\n");
-                sb.append("Last Name: ").append(rs.getString(2)).append("\n");
-                sb.append("First Name: ").append(rs.getString(3)).append("\n");
-                sb.append("Middle Name: ").append(rs.getString(4)).append("\n");
-                sb.append("Course: ").append(rs.getString(5)).append("\n");
-                sb.append("Year: ").append(rs.getString(6)).append("\n");
-                sb.append("Address: ").append(rs.getString(7)).append("\n");
-                sb.append("Contact Number: ").append(rs.getString(8)).append("\n");
-                sb.append("Birthday: ").append(rs.getString(9)).append("\n");
-                sb.append("Position: ").append(rs.getString(10)).append("\n");
-                sb.append("Affiliation: ").append(rs.getString(11)).append("\n");
+    String query = "SELECT * FROM tbl_cite WHERE Student_ID LIKE '%" + studentNumber + "%'";
+    try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(query)) {
+        if (rs.next()) {
+            String message = 
+                "Student ID: " + rs.getString(1) + "\n" +
+                "Last Name: " + rs.getString(2) + "\n" +
+                "First Name: " + rs.getString(3) + "\n" +
+                "Middle Name: " + rs.getString(4) + "\n" +
+                "Course: " + rs.getString(5) + "\n" +
+                "Year: " + rs.getString(6) + "\n" +
+                "Address: " + rs.getString(7) + "\n" +
+                "Contact Number: " + rs.getString(8) + "\n" +
+                "Birthday: " + rs.getString(9) + "\n" +
+                "Position: " + rs.getString(10) + "\n" +
+                "Affiliation: " + rs.getString(11);
 
-                JOptionPane.showMessageDialog(this, sb.toString(), "Student Information", JOptionPane.INFORMATION_MESSAGE);
-            } 
-            else {
-                JOptionPane.showMessageDialog(this, "Student not found.", "STUDENT NOT FOUND", JOptionPane.WARNING_MESSAGE);
-            }
+            JOptionPane.showMessageDialog(this, message, "Student Information", JOptionPane.INFORMATION_MESSAGE);
+        } 
+        else {
+            JOptionPane.showMessageDialog(this, "Student not found.", "STUDENT NOT FOUND", JOptionPane.WARNING_MESSAGE);
         }
-        catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+    } 
+    catch (SQLException ex) {
+        ex.printStackTrace();
     }
+}
 
     public void deleteData(String studentNumber) {
         String query = "DELETE FROM tbl_cite WHERE Student_ID=?";
